@@ -1,0 +1,32 @@
+const uint32_t BATTERY_ANIMATION[][4] = {
+	{
+		0xffe80280,
+		0x38038038,
+		0x3802ffe,
+		500
+	},
+	{
+		0xffe802a0,
+		0x3a03a03a,
+		0x3802ffe,
+		500
+	},
+	{
+		0xffe802a8,
+		0x3a83a83a,
+		0x83802ffe,
+		500
+	},
+	{
+		0xffe802aa,
+		0x3aa3aa3a,
+		0xa3802ffe,
+		500
+	},
+	{
+		0xffe802aa,
+		0xbaabaaba,
+		0xab802ffe,
+		500
+	}
+};
