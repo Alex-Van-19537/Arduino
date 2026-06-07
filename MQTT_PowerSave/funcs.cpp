@@ -3,17 +3,14 @@
 #include "arduino_secrets.h"
 
 String readDHT(DHT &dht){
-  // Премахнати dht.begin() и delay() - сензорът вече е готов за четене!
   float h = dht.readHumidity();
   float t = dht.readTemperature(); 
 
-  // Проверка за грешки при четенето
   if (isnan(h) || isnan(t)) {
     t = 0;
     h = 0;
   }
 
-  // Създаване на JSON структурата
   String jsonPayload = "{";
   jsonPayload += "\"temperature\": ";
   jsonPayload += t;
@@ -56,7 +53,6 @@ void connectToMQTT(MqttClient &mqttClient){
   Serial.print("Attempting to connect to the MQTT broker: ");
   Serial.println(broker);
 
-  // Опитваме максимум 3 пъти (общо 15 секунди)
   while (!mqttClient.connect(broker, port)) {
     Serial.print("MQTT failed! Error code = ");
     Serial.println(mqttClient.connectError());
