@@ -6,7 +6,6 @@ String readDHT(DHT &dht){
     float h = dht.readHumidity();
     float t = dht.readTemperature(); 
 
-    // Проверка за грешки при четенето
     if (isnan(h) || isnan(t)) {
       t = 0;
       h = 0;
