@@ -8,39 +8,22 @@ DHT dht(DHTPIN, DHTTYPE);
 
 const char topic[]  = "arduino/sensor";
 const long interval = 600000;
-unsigned long previousMillis = 0;
 const int sigPin = 13;
 
 void setup() {
-  //Initialize serial and wait for port to open:
-  Serial.begin(9600);
+  // Serial.begin(9600);
+  // while (!Serial){};
   pinMode(sigPin, OUTPUT);
-  digitalWrite(sigPin, 1);
-  while (!Serial){};
-
-  dht.begin();
-  Serial.println("DHT init success!");
-
   connectToWifi();
-
-  connectToMQTT(mqttClient);
-  String reading = readDHT(dht);
-  sendToMQTT(mqttClient, topic, reading);
-
-  digitalWrite(sigPin, 0);
-  Serial.end();
+  dht.begin();
+  // Serial.println("DHT init success!");
 }
 
 void loop() {
-  // Поддържане на връзката активна
-  mqttClient.poll();
-
-  unsigned long currentMillis = millis();
-  
-  if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
-
-    String reading = readDHT(dht);
-    sendToMQTT(mqttClient, topic, reading);
-  }
+  digitalWrite(sigPin, 1);
+  connectToMQTT(mqttClient);
+  String reading = readDHT(dht);
+  sendToMQTT(mqttClient, topic, reading);
+  digitalWrite(sigPin, 0);
+  disconnectAndSleep(mqttClient, interval);
 }

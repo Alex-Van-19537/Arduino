@@ -25,19 +25,20 @@ String readDHT(DHT &dht){
 }
 
 void connectToWifi(){
+
   char ssid[] = SECRET_SSID;
   char pass[] = SECRET_PASS;
     // attempt to connect to WiFi network:
-  Serial.print("Attempting to connect to WPA SSID: ");
+  // Serial.print("Attempting to connect to WPA SSID: ");
   Serial.println(ssid);
   while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
     // failed, retry
-    Serial.print(".");
+    // Serial.print(".");
     delay(5000);
   }
 
-  Serial.println("You're connected to the network");
-  Serial.println();
+  // Serial.println("You're connected to the network");
+  // Serial.println();
 }
 
 void connectToMQTT(MqttClient &mqttClient){
@@ -48,25 +49,37 @@ void connectToMQTT(MqttClient &mqttClient){
   mqttClient.setId("Arduino");
   // mqttClient.setUsernamePassword(USERNAME, PASSWORD);
 
-  Serial.print("Attempting to connect to the MQTT broker: ");
-  Serial.println(broker);
+  // Serial.print("Attempting to connect to the MQTT broker: ");
+  // Serial.println(broker);
 
   while (!mqttClient.connect(broker, port)) {
-    Serial.print("MQTT connection failed! Error code = ");
-    Serial.println(mqttClient.connectError());
-    Serial.println("Trying again...");
+    // Serial.print("MQTT connection failed! Error code = ");
+    // Serial.println(mqttClient.connectError());
+    // Serial.println("Trying again...");
     delay(5000);
   }
 
-  Serial.println("You're connected to the MQTT broker!");
-  Serial.println();
+  // Serial.println("You're connected to the MQTT broker!");
+  // Serial.println();
 }
 
 void sendToMQTT(MqttClient& mqttClient, const char* topic, String message){
-    // Serial.println(topic);
+    Serial.println(topic);
     mqttClient.beginMessage(topic);
-    // Serial.println(message);
+    Serial.println(message);
     mqttClient.print(message);
     mqttClient.endMessage();
     // Serial.println("Sent!");
+}
+
+void disconnectAndSleep(MqttClient& mqttClient, unsigned long timer){
+    // Правилно затваряне на MQTT съвместимо с ArduinoMqttClient
+    mqttClient.stop();
+    // Serial.println("MQTT Stopped!");
+    // WiFi.disconnect();
+    // Serial.println("WiFi Disconnected!");
+    // WiFi.end();
+    // Serial.println("WiFi Stopped!");
+    // Serial.println("Going to sleep...\n");
+    delay(timer);
 }

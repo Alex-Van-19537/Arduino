@@ -6,6 +6,7 @@
 #include "DHT.h"
 
 String readDHT(DHT&);
+void disconnectAndSleep(MqttClient& mqttClient, unsigned long timer);
 void connectToWifi();
 void connectToMQTT(MqttClient&);
 void sendToMQTT(MqttClient&, const char*, String);
