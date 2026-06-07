@@ -1,6 +1,6 @@
 #include "funcs.h"
-#define DHTPIN 8    // Пинът, към който е свързан сензора
-#define DHTTYPE DHT22   // Дефинираме типа сензор
+#define DHTPIN 8
+#define DHTTYPE DHT22
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
@@ -12,7 +12,6 @@ unsigned long previousMillis = 0;
 const int sigPin = 13;
 
 void setup() {
-  //Initialize serial and wait for port to open:
   Serial.begin(9600);
   pinMode(sigPin, OUTPUT);
   while (!Serial){};
